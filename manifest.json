@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+  
+    "name": "Gas Cost Calculator",
+    "description": "Chrome extension that calculates cost of gas for a trip!",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches":["<all_urls>"],
+            "js": ["Content.js"]
+        }
+    ]
+  }
