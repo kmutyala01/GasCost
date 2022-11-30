@@ -10,6 +10,25 @@ const calculateCost = (dist) =>{
 
 }
 
+const waitForElm = (selector) => {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
 
 const generate = (collection) => {
     
@@ -25,8 +44,8 @@ const generate = (collection) => {
                 dist = parseFloat(dist.replace(/,/g, ''));
                 
                 //Calculating the cost
-                let cost = calculateCost(dist);
-                console.log(cost);
+                let cost = calculateCost(dist).toFixed(2);
+                
             
                 //Adding the cost to DOM
                 const div = document.createElement("div")
@@ -44,15 +63,10 @@ window.addEventListener("keyup", (event) => {
     
     if (event.key === "Enter") {
         
-        setTimeout( () => {
-            collection = document.getElementsByClassName("XdKEzd");
-            generate(collection);
+        waitForElm('.XdKEzd').then((elm) => {
+            let collection = document.getElementsByClassName("XdKEzd");
+            generate(collection)
+        });
     
-        },3000)
-        
-    
-        
-        
-        
     }
 });
